@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <!-- Linking Google Font Link For Icons -->
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+  <!-- Importing Google font - Poppins -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" />
+<style>* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: #f0f4ff;
+  position: relative;
+  display: flex;
+}
+
+
+
+.user-profile {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  color: #161a2d;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.user-profile img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+.user-profile h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+.user-profile span {
+  font-size: 0.775rem;
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+.dropdown {
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  display: none;
+  flex-direction: column;
+  width: 150px;
+}
+
+.dropdown a {
+  padding: 10px;
+  text-decoration: none;
+  color: #161a2d;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background 0.2s ease;
+  cursor: pointer;
+  display: block;
+}
+
+.dropdown a:hover {
+  background: #f0f4ff;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 85px;
+  display: flex;
+  overflow-x: hidden;
+  flex-direction: column;
+  background: linear-gradient(to right, #000000, #3533CD, #3533CD);
+  padding: 25px 20px;
+  transition: all 0.4s ease;
+  z-index: 1;
+}
+
+.sidebar:hover {
+  width: 280px;
+}
+
+.sidebar .sidebar-header {
+  display: flex;
+  align-items: center;
+  padding: 15px 10px;
+}
+
+.sidebar .sidebar-header img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+
+.sidebar .sidebar-header h2 {
+  color: #fff;
+  font-size: 1.25rem;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.sidebar:hover .sidebar-header h2 {
+  opacity: 1;
+}
+
+.sidebar-links h4 {
+  color: #fff;
+  font-weight: 500;
+  white-space: nowrap;
+  margin: 10px 0;
+  position: relative;
+}
+
+.sidebar-links h4 span {
+  opacity: 0;
+}
+
+.sidebar:hover .sidebar-links h4 span {
+  opacity: 1;
+}
+
+.sidebar-links .menu-separator {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 1px;
+  transform: scaleX(1);
+  transform: translateY(-50%);
+  background: #4f52ba;
+  transform-origin: right;
+  transition-delay: 0.2s;
+}
+
+.sidebar:hover .sidebar-links .menu-separator {
+  transition-delay: 0s;
+  transform: scaleX(0);
+}
+
+.sidebar-links {
+  list-style: none;
+  margin-top: 20px;
+  height: 80%;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.sidebar-links::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebar-links li a {
+  display: flex;
+  align-items: center;
+  gap: 0 20px;
+  color: #fff;
+  font-weight: 500;
+  white-space: nowrap;
+  padding: 15px 10px;
+  text-decoration: none;
+  transition: 0.2s ease;
+}
+
+.sidebar-links li a:hover,
+.sidebar-links li a.active {
+  color: #4256da;
+  background: #FF914D;
+  border-radius: 4px;
+}
+
+.user-account {
+  margin-top: auto;
+  padding: 12px 10px;
+}
+
+.sidebar:hover .user-account {
+  background: #a02121;
+  border-radius: 4px;
+}
+
+.main-content {
+  margin-left: 100px; /* Initial left margin to make room for the sidebar */
+  transition: margin-left 0.4s ease; /* Smooth transition when sidebar expands */
+}
+
+.sidebar:hover ~ .main-content {
+  margin-left: 300px; /* Adjust margin when the sidebar expands */
+}
+
+.calendar-buttons-container {
+  position: absolute;
+  top: 150px;
+  right: 20px;
+  width: 300px;
+  text-align: right;
+}
+
+.calendar-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.calendar-buttons button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(to right, #000000, #3533CD, #3533CD);
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 5px;
+}
+
+.calendar-buttons button:hover {
+  background: linear-gradient(to right, #000000, #3533CD, #3533CD);
+}
+
+.sessions-roadmap {
+  position: absolute;
+  top: 100px;
+  right: 20px;
+  text-align: right;
+  color: #074d0f;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.class-heading {
+  text-align: center;
+  margin-top: 10px;
+  border-bottom: 3px solid #FD924E;
+  color: #FD924E;
+  font-size: 2rem;
+  background: linear-gradient(to right, #000000, #3533CD, #3533CD);
+  color: #fff;
+}
+
+.join-class-details {
+  background-color: #FD924E;
+  color: #3533CD;
+  padding: 8px;
+  border-radius: 1px;
+  margin-top: 30px;
+  border-radius: 5px;
+  width: 400px;
+}
+
+.join-class-details + p {
+  margin-top: 10px;
+}
+
+.no-session-details {
+  color: #060606;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.no-session-details + p {
+  margin-top: 10px;
+}
+.main-content {
+      margin-left: 100px; /* Initial left margin to make room for the sidebar */
+      transition: margin-left 0.4s ease; /* Smooth transition when sidebar expands */
+    }
+
+    .calendar-buttons-container {
+      position: absolute;
+      top: 150px;
+      right: 20px;
+      width: 300px;
+      text-align: right;
+    }
+
+    .calendar-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .calendar-buttons button {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(to right, #000000, #3533CD, #3533CD);
+      color: rgb(255, 255, 255);
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin: 5px;
+    }
+
+    .calendar-buttons button:hover {
+      background: linear-gradient(to right, #000000, #3533CD, #3533CD);
+    }
+
+    #sessionDetails {
+      display: none;
+      border: 1px solid #ccc;
+      padding: 20px;
+      margin: 20px;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    #sessionDetails h3 {
+      margin-top: 0;
+      color: #333;
+    }
+
+    #topics {
+      list-style-type: disc;
+      padding-left: 20px;
+      margin: 10px 0;
+    }
+
+    #assessmentLinks,
+    #recordings {
+      margin: 10px 0;
+      color: #555;
+    }
+
+    button {
+      padding: 10px 15px;
+      margin: 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    #feedbackButton {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    #goBackButton {
+      background-color: #f44336;
+      color: white;
+    }
+
+    button:hover {
+      opacity: 0.8;
+    }
+</style>
+</head>
+<body>
+  <div class="user-profile" onclick="toggleDropdown()">
+    <img src="IMG_8717.jpg" alt="user profile picture" />
+    <div class="user-detail">
+      <h3>Theeviharajiny Perumal</h3>
+    </div>
+  </div>
+  <div class="main-content">
+    <div class="calendar-buttons-container">
+      <div class="calendar-buttons" id="calendarButtons"></div>
+    </div>
+    <div id="sessionDetails">
+      <h3>Session Details</h3>
+      <p id="sessionDate"></p>
+      <p id="sessionTime"></p>
+      <ul id="topics"></ul>
+      <p id="assessmentLinks"></p>
+      <p id="recordings"></p>
+      <button id="feedbackButton">Give Feedback</button>
+      <button id="goBackButton">Go Back</button>
+    </div>
+  </div>
+  <div class="dropdown" id="userDropdown">
+    <a href="#">Profile</a>
+    <a href="#">Logout</a>
+  </div>
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <img src="circle logo with white background (1).png" alt="logo" />
+      <br>
+      <h2>IAT Technology</h2>
+    </div>
+    <ul class="sidebar-links">
+      <h4><span>Main Menu</span></h4>
+      <li><a href="#" onclick="setActiveMenuItem(this)"><span class="material-symbols-outlined">school</span> Class</a></li>
+      <li><a href="#" onclick="setActiveMenuItem(this)"><span class="material-symbols-outlined">dashboard</span> Dashboard</a></li>
+      <li><a href="#" onclick="setActiveMenuItem(this)"><span class="material-symbols-outlined">task</span> Tasks</a></li>
+      <li><a href="#" onclick="setActiveMenuItem(this)"><span class="material-symbols-outlined">assignment</span> Capstone</a></li>
+      <li><a href="#" onclick="setActiveMenuItem(this)"><span class="material-symbols-outlined">question_answer</span> Queries</a></li>
+      <li><a href="#" onclick="setActiveMenuItem(this)"><span class="material-symbols-outlined">description</span> Requirements</a></li>
+      <li><a href="#" onclick="setActiveMenuItem(this)"><span class="material-symbols-outlined">work</span> Portfolio – Submission</a></li>
+      <li><a href="#" onclick="setActiveMenuItem(this)"><span class="material-symbols-outlined">apps</span> Applications</a></li>
+      <li><a href="#" onclick="setActiveMenuItem(this)"><span class="material-symbols-outlined">assignment_turned_in</span> Interview Tasks</a></li>
+      <li><a href="#" onclick="setActiveMenuItem(this)"><span class="material-symbols-outlined">event_note</span> Leave – applications</a></li>
+      <li><a href="#" onclick="setActiveMenuItem(this)"><span class="material-symbols-outlined">record_voice_over</span> Mock interviews</a></li>
+      <li><a href="#" onclick="setActiveMenuItem(this)"><span class="material-symbols-outlined">badge</span> Certificate</a></li>
+      <li><a href="#" onclick="setActiveMenuItem(this)"><span class="material-symbols-outlined">reviews</span> Testimonial</a></li>
+      <li><a href="#" onclick="setActiveMenuItem(this)"><span class="material-symbols-outlined">leaderboard</span> Leaderboard</a></li>
+      <li><a href="#" onclick="setActiveMenuItem(this)"><span class="material-symbols-outlined">badge</span> Syllabus</a></li>
+      <li><a href="#" onclick="setActiveMenuItem(this)"><span class="material-symbols-outlined">place</span> 	Placement Board </a></li>
+    </ul>
+  </aside>
+  
+  <div class="main-content">
+    <div class="class-heading">
+      <h4>CLASS</h4>
+    </div>
+    <div class="join-class-details">
+      <p>Join the class on time</p>
+    </div>
+    <p class="no-session-details">No session title available</p>
+    <br>
+    <p>Class schedule</p>
+    <div class="sessions-roadmap">
+      <h4>Session Roadmap </h4>
+    </div>
+
+    </div>
+  </div>
+
+  <script>
+    function toggleDropdown() {
+      var dropdown = document.getElementById("userDropdown");
+      dropdown.style.display = dropdown.style.display === "none" ? "flex" : "none";
+    }
+
+    function setActiveMenuItem(element) {
+      // Remove 'active' class from all menu items
+      document.querySelectorAll('.sidebar-links li a').forEach(function(menuItem) {
+        menuItem.classList.remove('active');
+      });
+
+      // Add 'active' class to the clicked menu item
+      element.classList.add('active');
+    }
+
+    window.onload = function () {
+      const buttons = document.querySelectorAll('.calendar-buttons button');
+      buttons.forEach((button, index) => {
+        if (index < buttons.length - 1) {
+          const nextButton = buttons[index + 1];
+          const line = document.createElement('div');
+          line.className = 'line';
+
+          const rect1 = button.getBoundingClientRect();
+          const rect2 = nextButton.getBoundingClientRect();
+
+          line.style.top = `${rect1.top + rect1.height / 2 + window.scrollY}px`;
+          line.style.left = `${rect1.left + rect1.width / 2}px`;
+          line.style.height = `${rect2.top + rect2.height / 2 - rect1.top - rect1.height / 2}px`;
+
+          document.body.appendChild(line);
+        }
+     
+      });
+    };
+  
+        // Dummy sessions data for demonstration
+    const sessions = [
+      {
+        date: '2023-06-01',
+        time: '10:00 AM - 11:00 AM',
+        topics: ['HTML Basics', 'CSS Fundamentals'],
+        assessmentLinks: ['https://example.com/assessment1', 'https://example.com/assessment2'],
+        recordings: 'https://example.com/recording1'
+      },
+      {
+        date: '2023-06-02',
+        time: '10:00 AM - 11:00 AM',
+        topics: ['JavaScript Basics', 'DOM Manipulation'],
+        assessmentLinks: ['https://example.com/assessment3', 'https://example.com/assessment4'],
+        recordings: 'https://example.com/recording2'
+      } ,
+       {
+        date: '2023-06-03',
+        time: '10:00 AM - 11:00 AM',
+        topics: ['JavaScript Basics', 'DOM Manipulation'],
+        assessmentLinks: ['https://example.com/assessment3', 'https://example.com/assessment4'],
+        recordings: 'https://example.com/recording2'
+      },
+      {
+        date: '2023-06-04',
+        time: '10:00 AM - 11:00 AM',
+        topics: ['JavaScript Basics', 'DOM Manipulation'],
+        assessmentLinks: ['https://example.com/assessment3', 'https://example.com/assessment4'],
+        recordings: 'https://example.com/recording2'
+      },
+      {
+        date: '2023-06-05',
+        time: '10:00 AM - 11:00 AM',
+        topics: ['JavaScript Basics', 'DOM Manipulation'],
+        assessmentLinks: ['https://example.com/assessment3', 'https://example.com/assessment4'],
+        recordings: 'https://example.com/recording2'
+      },
+      {
+        date: '2023-06-06',
+        time: '10:00 AM - 11:00 AM',
+        topics: ['JavaScript Basics', 'DOM Manipulation'],
+        assessmentLinks: ['https://example.com/assessment3', 'https://example.com/assessment4'],
+        recordings: 'https://example.com/recording2'
+      }
+
+      // Add more sessions here
+    ];
+
+    // Generate calendar buttons dynamically
+    const calendarButtonsContainer = document.getElementById('calendarButtons');
+    const sessionDetails = document.getElementById('sessionDetails');
+    const sessionDate = document.getElementById('sessionDate');
+    const sessionTime = document.getElementById('sessionTime');
+    const topicsList = document.getElementById('topics');
+    const assessmentLinks = document.getElementById('assessmentLinks');
+    const recordings = document.getElementById('recordings');
+    const goBackButton = document.getElementById('goBackButton');
+    const feedbackButton = document.getElementById('feedbackButton');
+
+    for (let i = 1; i <= 54; i++) {
+      const button = document.createElement('button');
+      button.innerText = i;
+      button.addEventListener('click', () => showSessionDetails(i - 1)); // Adjust index to match sessions array
+      calendarButtonsContainer.appendChild(button);
+    }
+
+    function showSessionDetails(index) {
+      const session = sessions[index];
+      sessionDate.innerText = `Date: ${session.date}`;
+      sessionTime.innerText = `Time: ${session.time}`;
+      topicsList.innerHTML = session.topics.map(topic => `<li>${topic}</li>`).join('');
+      assessmentLinks.innerHTML = `Assessment Links: ${session.assessmentLinks.join(', ')}`;
+      recordings.innerHTML = `Recordings: ${session.recordings}`;
+      sessionDetails.style.display = 'block';
+    }
+
+    goBackButton.addEventListener('click', () => {
+      sessionDetails.style.display = 'none';
+    });
+
+    feedbackButton.addEventListener('click', () => {
+      alert('Feedback button clicked!');
+    });
+
+    // User profile dropdown
+    const userProfile = document.querySelector('.user-profile');
+    const dropdown = document.querySelector('.dropdown');
+
+    userProfile.addEventListener('click', () => {
+      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    });
+     
+  </script>
+</body>
+</html>
